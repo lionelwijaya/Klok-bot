@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 require("dotenv").config();
+const TOKEN = "put your bot token here";
 
 const prefix = "?";
 const client = new Discord.Client({
