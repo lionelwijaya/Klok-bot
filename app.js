@@ -11,7 +11,6 @@ client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-
 client.on("message", (msg) => {
     if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
@@ -34,16 +33,21 @@ client.on("message", (msg) => {
             msg.channel.send(`Please provide a proper time`);
         }
     } else if (cmd === "remind") {
-        const time = args[0] * 3600 + args[1] * 60 + args[2] * 1;
-        const mention = () => {
-            //mention author
-            msg.channel.send(`Reminder by ${msg.author}`);
-            //mention tagged
-            msg.mentions.users.forEach((user) => {
-                msg.channel.send(`${user}`);
-            });
-        };
-        setTimeout(mention, time * 1000);
+        if (!args.length) {
+            msg.channel.send(`Please provide a proper time and text`);
+        } else {
+            const time = args[0] * 3600 + args[1] * 60 + args[2] * 1;
+            const text = args.slice(3).join(" ");
+            const mention = () => {
+                msg.mentions.users.forEach((user) => {
+                    msg.channel.send(`To ${user}`);
+                });
+                msg.channel.send(
+                    `Reminder by ${msg.author}\n${text}`
+                );
+            };
+            setTimeout(mention, time * 1000);
+        }
     }
 });
 
